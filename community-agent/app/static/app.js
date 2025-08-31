@@ -567,7 +567,7 @@ let app;
 console.log("App.js loaded, setting up event listener...");
 
 // Add a simple test function
-window.testChat = function() {
+window.testChat = function () {
   console.log("Test function called");
   if (window.app) {
     console.log("App is initialized, testing sendMessage");
@@ -590,24 +590,23 @@ document.addEventListener("DOMContentLoaded", () => {
     app = new CommunityAssistant();
     window.app = app; // Make app globally accessible
     console.log("CommunityAssistant created successfully");
-    
+
     // Test that everything is working
     console.log("Testing form elements:");
     console.log("Chat form:", document.getElementById("chat-form"));
     console.log("Chat input:", document.getElementById("chat-input"));
     console.log("Chat messages:", document.getElementById("chat-messages"));
-    
+
     // Test the AI endpoint
     console.log("Testing AI endpoint...");
     fetch("http://localhost:8000/ai/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: "test" })
+      body: JSON.stringify({ message: "test" }),
     })
-    .then(response => response.json())
-    .then(data => console.log("AI test response:", data))
-    .catch(error => console.error("AI test error:", error));
-    
+      .then((response) => response.json())
+      .then((data) => console.log("AI test response:", data))
+      .catch((error) => console.error("AI test error:", error));
   } catch (error) {
     console.error("Error creating CommunityAssistant:", error);
   }

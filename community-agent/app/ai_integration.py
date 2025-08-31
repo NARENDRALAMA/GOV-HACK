@@ -56,6 +56,11 @@ class OllamaAI:
                 if "Assistant:" in ai_response:
                     ai_response = ai_response.split("Assistant:")[-1].strip()
                 
+                # LIMIT RESPONSE LENGTH to prevent overwhelming responses
+                if len(ai_response) > 200:
+                    # Truncate long responses and add a helpful note
+                    ai_response = ai_response[:200].rsplit('.', 1)[0] + ". For more details, please ask a specific question."
+                
                 # Log the interaction
                 self.conversation_history.append({
                     'timestamp': datetime.now().isoformat(),
@@ -103,23 +108,21 @@ class OllamaAI:
         Returns:
             Dictionary with analysis results
         """
-        # Create a specialized prompt for government services
+        # Create a specialized prompt for government services - KEEP RESPONSES SHORT!
         context = """
-        You are an AI assistant specializing in Australian government services. 
+        You are a helpful AI assistant for Australian government services. 
+        
+        IMPORTANT: Keep your responses SHORT and CONCISE (max 2-3 sentences).
+        Do NOT give long explanations or overwhelming details.
+        
         Your role is to:
-        1. Understand what government service the user needs
-        2. Identify the life event (birth, unemployment, emergency, etc.)
-        3. Suggest appropriate forms and steps
-        4. Provide helpful guidance
+        1. Quickly identify what government service is needed
+        2. Give a brief, helpful response
+        3. Suggest next steps if relevant
         
-        Common services include:
-        - Birth registration and Medicare enrolment
-        - Unemployment benefits (JobSeeker, job services)
-        - Emergency disaster assistance
-        - Carer support payments
-        - Address changes and documentation
+        Common services: Birth registration, Medicare, unemployment benefits, emergency assistance.
         
-        Be helpful, clear, and specific about what services are needed.
+        Remember: SHORT and HELPFUL responses only!
         """
         
         response = self.generate_response(user_message, context)
