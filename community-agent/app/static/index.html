@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Agentic Community Assistant - Baby Just Born</title>
+    <title>Agentic Community Assistant - AI Chatbot</title>
     <link
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
       rel="stylesheet"
@@ -16,28 +16,58 @@
       .gradient-bg {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       }
-      .card-hover {
-        transition: all 0.3s ease;
+      .chat-container {
+        height: 500px;
+        overflow-y: auto;
       }
-      .card-hover:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
-          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      .message {
+        margin-bottom: 1rem;
+        padding: 1rem;
+        border-radius: 1rem;
+        max-width: 80%;
       }
-      .step-active {
+      .user-message {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
+        margin-left: auto;
+        border-bottom-right-radius: 0.25rem;
       }
-      .step-completed {
-        background: #10b981;
-        color: white;
+      .agent-message {
+        background: #f3f4f6;
+        color: #374151;
+        margin-right: auto;
+        border-bottom-left-radius: 0.25rem;
       }
-      .form-input {
-        transition: all 0.3s ease;
+      .typing-indicator {
+        display: none;
+        padding: 1rem;
+        background: #f3f4f6;
+        border-radius: 1rem;
+        margin-right: auto;
+        max-width: 80%;
       }
-      .form-input:focus {
-        transform: scale(1.02);
-        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      .typing-dots {
+        display: inline-block;
+      }
+      .typing-dots::after {
+        content: "";
+        animation: typing 1.5s infinite;
+      }
+      @keyframes typing {
+        0%,
+        20% {
+          content: "";
+        }
+        40% {
+          content: ".";
+        }
+        60% {
+          content: "..";
+        }
+        80%,
+        100% {
+          content: "...";
+        }
       }
     </style>
   </head>
@@ -48,11 +78,11 @@
         <div class="flex items-center justify-between">
           <div>
             <h1 class="text-4xl font-bold mb-2">
-              <i class="fas fa-baby text-pink-300 mr-3"></i>
-              Community Assistant
+              <i class="fas fa-robot text-blue-300 mr-3"></i>
+              AI Community Assistant
             </h1>
             <p class="text-xl text-blue-100">
-              Guiding you through life's important moments
+              Ask me anything about government services and life events
             </p>
           </div>
           <div class="text-right">
@@ -65,283 +95,141 @@
 
     <!-- Main Content -->
     <main class="container mx-auto px-6 py-8">
-      <!-- Welcome Section -->
-      <div id="welcome-section" class="text-center mb-12">
-        <div class="max-w-4xl mx-auto">
-          <h2 class="text-3xl font-bold text-gray-800 mb-4">
-            Welcome to Your Baby's Journey! 👶
-          </h2>
-          <p class="text-lg text-gray-600 mb-8">
-            We'll help you complete all the necessary government services for
-            your newborn. Let's get started with a few simple questions.
-          </p>
-          <button
-            onclick="startJourney()"
-            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-lg text-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+      <!-- Chat Interface -->
+      <div class="max-w-4xl mx-auto">
+        <div class="bg-white rounded-xl shadow-xl overflow-hidden">
+          <!-- Chat Header -->
+          <div
+            class="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6"
           >
-            <i class="fas fa-rocket mr-2"></i>
-            Start My Journey
-          </button>
-        </div>
-      </div>
+            <h2 class="text-2xl font-bold mb-2">
+              <i class="fas fa-comments mr-2"></i>
+              Chat with Your AI Assistant
+            </h2>
+            <p class="text-blue-100">
+              I can help you with birth registration, Medicare enrolment,
+              unemployment support, emergency assistance, and more!
+            </p>
+          </div>
 
-      <!-- Journey Form Section -->
-      <div id="journey-form-section" class="hidden max-w-4xl mx-auto">
-        <div class="bg-white rounded-xl shadow-xl p-8 mb-8">
-          <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">
-            <i class="fas fa-user-plus text-blue-500 mr-2"></i>
-            Tell Us About Your Family
-          </h3>
-
-          <form id="intake-form" class="space-y-6">
-            <!-- Parent 1 Information -->
-            <div class="border-l-4 border-blue-500 pl-6">
-              <h4 class="text-xl font-semibold text-gray-700 mb-4">
-                Parent 1 Information
-              </h4>
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2"
-                    >Full Name *</label
-                  >
-                  <input
-                    type="text"
-                    id="parent1_name"
-                    required
-                    class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
+          <!-- Chat Messages -->
+          <div id="chat-messages" class="chat-container p-6 bg-gray-50">
+            <!-- Welcome message -->
+            <div class="message agent-message">
+              <div class="flex items-start">
+                <div
+                  class="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center mr-3 flex-shrink-0"
+                >
+                  <i class="fas fa-robot text-sm"></i>
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2"
-                    >Date of Birth *</label
-                  >
-                  <input
-                    type="date"
-                    id="parent1_dob"
-                    required
-                    class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                </div>
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2"
-                    >Email</label
-                  >
-                  <input
-                    type="email"
-                    id="parent1_email"
-                    class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                </div>
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2"
-                    >Phone</label
-                  >
-                  <input
-                    type="tel"
-                    id="parent1_phone"
-                    class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
+                  <p class="font-semibold text-blue-600 mb-1">AI Assistant</p>
+                  <p>
+                    Hello! I'm your AI Community Assistant. I can help you
+                    navigate government services and complete forms
+                    automatically.
+                  </p>
+                  <p class="mt-2 text-sm text-gray-600">
+                    Try asking me something like:
+                  </p>
+                  <ul class="mt-1 text-sm text-gray-600 space-y-1">
+                    <li>
+                      • "My baby was born yesterday in Parramatta, help me
+                      register the birth"
+                    </li>
+                    <li>• "I lost my job and need unemployment benefits"</li>
+                    <li>
+                      • "My home was flooded in Lismore, I need emergency
+                      assistance"
+                    </li>
+                    <li>
+                      • "What documents do I need for Medicare enrolment?"
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>
+          </div>
 
-            <!-- Parent 2 Information -->
-            <div class="border-l-4 border-green-500 pl-6">
-              <h4 class="text-xl font-semibold text-gray-700 mb-4">
-                Parent 2 Information (Optional)
-              </h4>
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2"
-                    >Full Name</label
-                  >
-                  <input
-                    type="text"
-                    id="parent2_name"
-                    class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                  />
-                </div>
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2"
-                    >Date of Birth</label
-                  >
-                  <input
-                    type="date"
-                    id="parent2_dob"
-                    class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                  />
-                </div>
+          <!-- Typing Indicator -->
+          <div id="typing-indicator" class="typing-indicator">
+            <div class="flex items-start">
+              <div
+                class="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center mr-3 flex-shrink-0"
+              >
+                <i class="fas fa-robot text-sm"></i>
+              </div>
+              <div>
+                <p class="font-semibold text-blue-600 mb-1">AI Assistant</p>
+                <p class="typing-dots">Thinking</p>
               </div>
             </div>
+          </div>
 
-            <!-- Baby Information -->
-            <div class="border-l-4 border-pink-500 pl-6">
-              <h4 class="text-xl font-semibold text-gray-700 mb-4">
-                Baby Information
-              </h4>
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2"
-                    >Baby's Name</label
-                  >
-                  <input
-                    type="text"
-                    id="baby_name"
-                    class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                  />
-                </div>
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2"
-                    >Date of Birth *</label
-                  >
-                  <input
-                    type="date"
-                    id="baby_dob"
-                    required
-                    class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                  />
-                </div>
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2"
-                    >Sex</label
-                  >
-                  <select
-                    id="baby_sex"
-                    class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                  >
-                    <option value="">Select...</option>
-                    <option value="M">Male</option>
-                    <option value="F">Female</option>
-                    <option value="X">Other</option>
-                  </select>
-                </div>
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2"
-                    >Place of Birth</label
-                  >
-                  <input
-                    type="text"
-                    id="place_of_birth"
-                    placeholder="e.g., Westmead Hospital"
-                    class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <!-- Address Information -->
-            <div class="border-l-4 border-purple-500 pl-6">
-              <h4 class="text-xl font-semibold text-gray-700 mb-4">
-                Address Information
-              </h4>
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="md:col-span-2">
-                  <label class="block text-sm font-medium text-gray-700 mb-2"
-                    >Street Address</label
-                  >
-                  <input
-                    type="text"
-                    id="address_line1"
-                    class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  />
-                </div>
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2"
-                    >Suburb</label
-                  >
-                  <input
-                    type="text"
-                    id="suburb"
-                    class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  />
-                </div>
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2"
-                    >State</label
-                  >
-                  <select
-                    id="state"
-                    class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  >
-                    <option value="NSW" selected>New South Wales</option>
-                    <option value="VIC">Victoria</option>
-                    <option value="QLD">Queensland</option>
-                    <option value="WA">Western Australia</option>
-                    <option value="SA">South Australia</option>
-                    <option value="TAS">Tasmania</option>
-                    <option value="ACT">Australian Capital Territory</option>
-                    <option value="NT">Northern Territory</option>
-                  </select>
-                </div>
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2"
-                    >Postcode</label
-                  >
-                  <input
-                    type="text"
-                    id="postcode"
-                    class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div class="text-center pt-6">
+          <!-- Chat Input -->
+          <div class="p-6 bg-white border-t border-gray-200">
+            <form id="chat-form" class="flex space-x-4">
+              <input
+                type="text"
+                id="chat-input"
+                placeholder="Ask me about government services, life events, or anything else..."
+                class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                required
+              />
               <button
                 type="submit"
-                class="bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-8 rounded-lg text-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+                class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
               >
                 <i class="fas fa-paper-plane mr-2"></i>
-                Create My Journey
+                Send
               </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Journey Progress Section (Hidden by default) -->
+        <div id="journey-progress-section" class="hidden mt-8">
+          <div class="bg-white rounded-xl shadow-xl p-8">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">
+              <i class="fas fa-route text-blue-500 mr-2"></i>
+              Your Journey Progress
+            </h3>
+            <div
+              id="journey-steps"
+              class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8"
+            >
+              <!-- Journey steps will be populated here -->
             </div>
-          </form>
+            <div id="current-step-form" class="hidden">
+              <!-- Current step form will be populated here -->
+            </div>
+          </div>
         </div>
-      </div>
 
-      <!-- Journey Progress Section -->
-      <div id="journey-progress-section" class="hidden max-w-6xl mx-auto">
-        <div class="bg-white rounded-xl shadow-xl p-8 mb-8">
-          <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">
-            <i class="fas fa-route text-blue-500 mr-2"></i>
-            Your Journey Progress
-          </h3>
-
-          <!-- Journey Steps -->
+        <!-- Success Section (Hidden by default) -->
+        <div id="success-section" class="hidden mt-8">
           <div
-            id="journey-steps"
-            class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8"
+            class="bg-green-50 border border-green-200 rounded-xl p-8 text-center"
           >
-            <!-- Steps will be populated here -->
+            <i class="fas fa-check-circle text-6xl text-green-500 mb-6"></i>
+            <h3 class="text-3xl font-bold text-green-800 mb-4">
+              Journey Completed! 🎉
+            </h3>
+            <p class="text-lg text-green-700 mb-6">
+              Congratulations! You've successfully completed all the necessary
+              government services.
+            </p>
+            <div id="journey-summary" class="bg-white rounded-lg p-6 mb-6">
+              <!-- Summary will be populated here -->
+            </div>
+            <button
+              onclick="startNewChat()"
+              class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
+            >
+              <i class="fas fa-comments mr-2"></i>
+              Start New Chat
+            </button>
           </div>
-
-          <!-- Current Step Form -->
-          <div id="current-step-form" class="hidden">
-            <!-- Form will be populated here -->
-          </div>
-        </div>
-      </div>
-
-      <!-- Success Section -->
-      <div id="success-section" class="hidden max-w-4xl mx-auto text-center">
-        <div class="bg-green-50 border border-green-200 rounded-xl p-8">
-          <i class="fas fa-check-circle text-6xl text-green-500 mb-6"></i>
-          <h3 class="text-3xl font-bold text-green-800 mb-4">
-            Journey Completed! 🎉
-          </h3>
-          <p class="text-lg text-green-700 mb-6">
-            Congratulations! You've successfully completed all the necessary
-            government services for your baby.
-          </p>
-          <div id="journey-summary" class="bg-white rounded-lg p-6 mb-6">
-            <!-- Summary will be populated here -->
-          </div>
-          <button
-            onclick="startNewJourney()"
-            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300"
-          >
-            Start Another Journey
-          </button>
         </div>
       </div>
     </main>
