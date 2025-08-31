@@ -590,6 +590,9 @@ document.addEventListener("DOMContentLoaded", () => {
     app = new CommunityAssistant();
     console.log("CommunityAssistant created successfully");
     
+    // Now set up event listeners after DOM is ready
+    app.setupEventListeners();
+    
     // Test that everything is working
     console.log("Testing form elements:");
     console.log("Chat form:", document.getElementById("chat-form"));
