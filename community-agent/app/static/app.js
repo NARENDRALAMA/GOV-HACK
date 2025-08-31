@@ -571,7 +571,14 @@ window.testChat = function() {
   console.log("Test function called");
   if (app) {
     console.log("App is initialized, testing sendMessage");
-    app.sendMessage();
+    // Simulate a test message
+    const testInput = document.getElementById("chat-input");
+    if (testInput) {
+      testInput.value = "test message";
+      app.sendMessage();
+    } else {
+      console.error("Test input not found");
+    }
   } else {
     console.log("App not initialized yet");
   }
@@ -588,6 +595,17 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("Chat form:", document.getElementById("chat-form"));
     console.log("Chat input:", document.getElementById("chat-input"));
     console.log("Chat messages:", document.getElementById("chat-messages"));
+    
+    // Test the AI endpoint
+    console.log("Testing AI endpoint...");
+    fetch("http://localhost:8000/ai/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: "test" })
+    })
+    .then(response => response.json())
+    .then(data => console.log("AI test response:", data))
+    .catch(error => console.error("AI test error:", error));
     
   } catch (error) {
     console.error("Error creating CommunityAssistant:", error);

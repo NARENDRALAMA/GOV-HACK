@@ -1,25 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Test Page</title>
-  </head>
-  <body>
-    <h1>Test Page</h1>
-    <button onclick="testFunction()">Test Button</button>
-    <div id="result"></div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .chat-container { max-width: 600px; margin: 0 auto; }
+        .message { margin: 10px 0; padding: 10px; border-radius: 5px; }
+        .user { background: #e3f2fd; text-align: right; }
+        .ai { background: #f5f5f5; }
+        input, button { padding: 10px; margin: 5px; }
+        #chat-messages { height: 300px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <h1>Chat Test Page</h1>
+        <div id="chat-messages"></div>
+        <div>
+            <input type="text" id="chat-input" placeholder="Type your message...">
+            <button onclick="sendMessage()">Send</button>
+            <button onclick="testAI()">Test AI Endpoint</button>
+        </div>
+        <div id="status"></div>
+    </div>
 
     <script>
-      function testFunction() {
-        document.getElementById("result").innerHTML = "Button clicked!";
-        console.log("Button clicked!");
-      }
-
-      // Test if this script runs
-      console.log("Test script loaded");
-      document.getElementById("result").innerHTML =
-        "Script loaded successfully";
+        const apiBase = "http://localhost:8000";
+        
+        function addMessage(content, sender) {
+            const messages = document.getElementById("chat-messages");
+            const div = document.createElement("div");
+            div.className = `message ${sender}`;
+            div.textContent = content;
+            messages.appendChild(div);
+            messages.scrollTop = messages.scrollHeight;
+        }
+        
+        async function sendMessage() {
+            const input = document.getElementById("chat-input");
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Add user message
+            addMessage(message, "user");
+            input.value = "";
+            
+            try {
+                const response = await fetch(`${apiBase}/ai/chat`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ message: message })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log("AI Response:", data);
+                
+                // Add AI response
+                addMessage(data.response || "No response", "ai");
+                
+            } catch (error) {
+                console.error("Error:", error);
+                addMessage(`Error: ${error.message}`, "ai");
+            }
+        }
+        
+        async function testAI() {
+            document.getElementById("status").textContent = "Testing AI endpoint...";
+            
+            try {
+                const response = await fetch(`${apiBase}/ai/chat`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ message: "test" })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log("Test Response:", data);
+                document.getElementById("status").textContent = `AI working! Response: ${data.response.substring(0, 50)}...`;
+                
+            } catch (error) {
+                console.error("Test Error:", error);
+                document.getElementById("status").textContent = `Error: ${error.message}`;
+            }
+        }
+        
+        // Enter key support
+        document.getElementById("chat-input").addEventListener("keypress", (e) => {
+            if (e.key === "Enter") {
+                sendMessage();
+            }
+        });
+        
+        // Initial test
+        testAI();
     </script>
-  </body>
+</body>
 </html>
