@@ -569,13 +569,13 @@ console.log("App.js loaded, setting up event listener...");
 // Add a simple test function
 window.testChat = function() {
   console.log("Test function called");
-  if (app) {
+  if (window.app) {
     console.log("App is initialized, testing sendMessage");
     // Simulate a test message
     const testInput = document.getElementById("chat-input");
     if (testInput) {
       testInput.value = "test message";
-      app.sendMessage();
+      window.app.sendMessage();
     } else {
       console.error("Test input not found");
     }
@@ -588,10 +588,8 @@ document.addEventListener("DOMContentLoaded", () => {
   console.log("DOM loaded, creating CommunityAssistant...");
   try {
     app = new CommunityAssistant();
+    window.app = app; // Make app globally accessible
     console.log("CommunityAssistant created successfully");
-    
-    // Now set up event listeners after DOM is ready
-    app.setupEventListeners();
     
     // Test that everything is working
     console.log("Testing form elements:");
@@ -618,8 +616,8 @@ document.addEventListener("DOMContentLoaded", () => {
 // Global functions for onclick handlers
 function startNewChat() {
   console.log("startNewChat called");
-  if (app) {
-    app.startNewChat();
+  if (window.app) {
+    window.app.startNewChat();
   } else {
     console.error("App not initialized");
   }
