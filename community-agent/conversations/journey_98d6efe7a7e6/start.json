@@ -1,0 +1,90 @@
+{
+  "type": "conversation_start",
+  "created_at": "2025-08-30T06:34:54.024543",
+  "data": {
+    "conversation_id": "journey_98d6efe7a7e6",
+    "user_message": "My baby was born 3 days ago at Westmead Hospital, postcode 2145",
+    "agent_response": {
+      "journey_id": "journey_98d6efe7a7e6",
+      "intent": "birth_related",
+      "entities": {
+        "postcode": "2145",
+        "location": "Westmead",
+        "days_ago": 3
+      },
+      "plan": {
+        "steps": [
+          {
+            "id": "birth_reg",
+            "title": "Birth Registration (NSW)",
+            "status": "pending",
+            "artifacts": []
+          },
+          {
+            "id": "medicare_enrolment",
+            "title": "Medicare Newborn Enrolment",
+            "status": "pending",
+            "artifacts": []
+          }
+        ],
+        "estimated_duration": "2-3 business days",
+        "requirements": [
+          "Basic identification documents"
+        ]
+      },
+      "government_info": {
+        "requirements": {
+          "content": "# NSW Birth Registration Requirements\n\n## Overview\n\nAll births in NSW must be registered within 60 days of the child's birth.\n\n**Source**: [NSW Registry of Births, Deaths and Marriages](https://www.bdm.nsw.gov.au/Pages/births/birth-registration.aspx)\n\n## Timeframe\n\n- **Registration Deadline**: Within 60 days of birth\n- **Late Registration**: Possible up to 30 years with additional documentation\n- **Urgent Cases**: Express processing available for travel documents\n\n## Required Documents\n\n1. **Birth Registration Statement** (completed by hospital/midwife)\n2. **Parent's Identification** (driver's license, passport, or birth certificate)\n3. **Marriage Certificate** (if parents are married)\n4. **Proof of Address** (utility bill, lease agreement)\n\n## Who Can Register\n\n- **Primary Parent**: Mother or father listed on birth statement\n- **Authorized Person**: With written consent from primary parent\n- **Legal Guardian**: With court documentation\n\n## Registration Methods\n\n1. **Online**: [NSW BDM Online Portal](https://www.bdm.nsw.gov.au/Pages/online-services.aspx)\n2. **In Person**: At any Service NSW centre\n3. **By Mail**: Download form and mail to registry\n\n## Fees\n\n- **Standard Registration**: Free\n- **Birth Certificate**: $60 (first copy), $30 (additional copies)\n- **Express Processing**: $20 extra\n\n## What Happens After Registration\n\n1. **Confirmation**: Registration number provided\n2. **Birth Certificate**: Available for purchase\n3. **Medicare**: Automatic notification for newborn enrolment\n4. **Centrelink**: Automatic notification for family assistance\n\n## Special Circumstances\n\n- **Stillbirth**: Separate registration process\n- **Multiple Births**: Each child registered separately\n- **Adoption**: Different process through adoption agency\n- **Surrogacy**: Legal documentation required\n\n## Contact Information\n\n- **Phone**: 1300 369 123\n- **Email**: bdm@customerservice.nsw.gov.au\n- **Website**: [www.bdm.nsw.gov.au](https://www.bdm.nsw.gov.au)\n\n## Related Services\n\n- [Medicare Newborn Enrolment](https://www.servicesaustralia.gov.au/medicare-newborn-enrolment)\n- [Centrelink Family Assistance](https://www.servicesaustralia.gov.au/family-assistance)\n- [NSW Immunisation Schedule](https://www.health.nsw.gov.au/immunisation/Pages/default.aspx)\n",
+          "source_url": "https://www.bdm.nsw.gov.au/Pages/births/birth-registration.aspx",
+          "citations": [
+            "https://www.servicesaustralia.gov.au/family-assistance",
+            "https://www.servicesaustralia.gov.au/medicare-newborn-enrolment",
+            "https://www.bdm.nsw.gov.au/Pages/births/birth-registration.aspx",
+            "https://www.health.nsw.gov.au/immunisation/Pages/default.aspx",
+            "https://www.bdm.nsw.gov.au",
+            "https://www.bdm.nsw.gov.au/Pages/online-services.aspx"
+          ],
+          "topic": "birth_related"
+        },
+        "nearest_services": [
+          {
+            "name": "Parramatta Service Centre",
+            "address": "146 Marsden Street, Parramatta 2150",
+            "phone": "1300 369 123",
+            "url": "https://www.bdm.nsw.gov.au/Pages/bdm.aspx",
+            "operating_hours": "Mon-Fri 8:30am-4:30pm",
+            "distance": 5
+          },
+          {
+            "name": "Liverpool Service Centre",
+            "address": "203 Northumberland Street, Liverpool 2170",
+            "phone": "1300 369 123",
+            "url": "https://www.bdm.nsw.gov.au/Pages/bdm.aspx",
+            "operating_hours": "Mon-Fri 8:30am-4:30pm",
+            "distance": 25
+          },
+          {
+            "name": "NSW Registry of Births Deaths and Marriages",
+            "address": "35 Regent Street, Chippendale 2008",
+            "phone": "1300 369 123",
+            "url": "https://www.bdm.nsw.gov.au/Pages/bdm.aspx",
+            "operating_hours": "Mon-Fri 8:30am-4:30pm",
+            "distance": 137
+          }
+        ],
+        "source_urls": [
+          "https://www.servicesaustralia.gov.au/family-assistance",
+          "https://www.servicesaustralia.gov.au/medicare-newborn-enrolment",
+          "https://www.bdm.nsw.gov.au/Pages/births/birth-registration.aspx",
+          "https://www.health.nsw.gov.au/immunisation/Pages/default.aspx",
+          "https://www.bdm.nsw.gov.au",
+          "https://www.bdm.nsw.gov.au/Pages/online-services.aspx"
+        ]
+      },
+      "inclusivity": {},
+      "next_action": "ready_to_continue",
+      "message": "I understand you need help with birth related for your baby born in Westmead (postcode 2145). Let me start preparing the necessary forms and find the nearest service locations for you."
+    },
+    "timestamp": "2025-08-30T16:34:54.024519"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "prefill",
+  "created_at": "2025-08-31T00:26:13.436047",
+  "data": {
+    "journey_id": "journey_e277103a01d2",
+    "step_id": "birth_reg",
+    "form_data": {
+      "parent1_full_name": "Shruti Rana Magar",
+      "parent1_dob": "2000-07-21",
+      "baby_name": "David",
+      "baby_dob": "2025-08-24",
+      "place_of_birth": "Westmead Hospital"
+    },
+    "created_at": "2025-08-31T00:26:13.435526"
+  }
+}

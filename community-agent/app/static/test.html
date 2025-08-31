@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Page</title>
+  </head>
+  <body>
+    <h1>Test Page</h1>
+    <button onclick="testFunction()">Test Button</button>
+    <div id="result"></div>
+
+    <script>
+      function testFunction() {
+        document.getElementById("result").innerHTML = "Button clicked!";
+        console.log("Button clicked!");
+      }
+
+      // Test if this script runs
+      console.log("Test script loaded");
+      document.getElementById("result").innerHTML =
+        "Script loaded successfully";
+    </script>
+  </body>
+</html>

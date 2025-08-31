@@ -1,0 +1,16 @@
+{
+  "type": "prefill",
+  "created_at": "2025-08-31T00:39:43.206196",
+  "data": {
+    "journey_id": "journey_cc96b4f0eb25",
+    "step_id": "birth_reg",
+    "form_data": {
+      "parent1_full_name": "Sara Stark",
+      "parent1_dob": "1990-01-01",
+      "baby_name": "Rob Stark",
+      "baby_dob": "2025-08-24",
+      "place_of_birth": "Westmead Hospital"
+    },
+    "created_at": "2025-08-31T00:39:43.206000"
+  }
+}

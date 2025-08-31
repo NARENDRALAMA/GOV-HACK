@@ -1,0 +1,83 @@
+id: job_service_provider
+title: Job Service Provider Registration
+description: Register with a job service provider for employment assistance
+
+fields:
+  - id: applicant_full_name
+    label: Full Name
+    required: true
+    source: applicant.full_name
+
+  - id: applicant_dob
+    label: Date of Birth
+    required: true
+    source: applicant.dob
+
+  - id: applicant_email
+    label: Email Address
+    required: false
+    source: applicant.email
+
+  - id: applicant_phone
+    label: Phone Number
+    required: false
+    source: applicant.phone
+
+  - id: residential_address
+    label: Residential Address
+    required: false
+    source: address.line1
+
+  - id: suburb
+    label: Suburb
+    required: false
+    source: address.suburb
+
+  - id: state
+    label: State
+    required: false
+    source: address.state
+
+  - id: postcode
+    label: Postcode
+    required: false
+    source: address.postcode
+
+  - id: preferred_provider
+    label: Preferred Job Service Provider
+    required: false
+    source: employment.preferred_provider
+
+  - id: skills_assessment
+    label: Skills Assessment Required
+    required: false
+    source: employment.skills_assessment
+
+  - id: training_interests
+    label: Training Interests
+    required: false
+    source: employment.training_interests
+
+  - id: work_preferences
+    label: Work Preferences
+    required: false
+    source: employment.work_preferences
+
+  - id: resume_upload
+    label: Resume Upload
+    required: false
+    source: employment.resume_upload
+
+review_text: |
+  Please review your Job Service Provider registration details above. All required fields have been completed based on your intake information.
+
+  Important notes:
+  - Job service providers help you find work and access training programs
+  - You'll be assigned a jobactive provider based on your location and needs
+  - Regular appointments and job search activities are required
+  - Training programs may be available to improve your employability
+
+  Source: Department of Employment and Workplace Relations - Jobactive - https://www.dewr.gov.au/jobactive
+
+receipt_expected: true
+

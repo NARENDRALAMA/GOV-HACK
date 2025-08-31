@@ -1,0 +1,13 @@
+{
+  "type": "conversation_continue",
+  "created_at": "2025-08-30T06:34:54.018222",
+  "data": {
+    "journey_id": "journey_ea1a5adc9308",
+    "user_input": null,
+    "agent_response": {
+      "error": "Error executing step: 'Journey' object has no attribute 'journey_id'",
+      "step_id": "birth_reg"
+    },
+    "timestamp": "2025-08-30T16:34:54.018192"
+  }
+}

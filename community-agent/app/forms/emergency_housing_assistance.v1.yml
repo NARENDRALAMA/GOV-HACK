@@ -1,0 +1,93 @@
+id: emergency_housing_assistance
+title: Emergency Housing Assistance
+description: Apply for emergency housing support after a disaster
+
+fields:
+  - id: applicant_full_name
+    label: Full Name
+    required: true
+    source: applicant.full_name
+
+  - id: applicant_dob
+    label: Date of Birth
+    required: true
+    source: applicant.dob
+
+  - id: applicant_email
+    label: Email Address
+    required: false
+    source: applicant.email
+
+  - id: applicant_phone
+    label: Phone Number
+    required: false
+    source: applicant.phone
+
+  - id: residential_address
+    label: Residential Address
+    required: false
+    source: address.line1
+
+  - id: suburb
+    label: Suburb
+    required: false
+    source: address.suburb
+
+  - id: state
+    label: State
+    required: false
+    source: address.state
+
+  - id: postcode
+    label: Postcode
+    required: false
+    source: address.postcode
+
+  - id: disaster_type
+    label: Type of Disaster
+    required: false
+    source: disaster.type
+
+  - id: disaster_date
+    label: Date of Disaster
+    required: false
+    source: disaster.date
+
+  - id: housing_status
+    label: Current Housing Status
+    required: false
+    source: housing.status
+
+  - id: housing_damage
+    label: Housing Damage Description
+    required: false
+    source: housing.damage_description
+
+  - id: household_size
+    label: Number of People in Household
+    required: false
+    source: housing.household_size
+
+  - id: special_needs
+    label: Special Needs or Accessibility Requirements
+    required: false
+    source: housing.special_needs
+
+  - id: temporary_accommodation_needed
+    label: Temporary Accommodation Required
+    required: false
+    source: housing.temporary_accommodation_needed
+
+review_text: |
+  Please review your Emergency Housing Assistance application details above. All required fields have been completed based on your intake information.
+
+  Important notes:
+  - Emergency Housing Assistance provides temporary accommodation after a disaster
+  - You must have been displaced from your home due to an eligible disaster
+  - Assistance may include temporary housing, repairs, or relocation support
+  - Processing time varies based on availability and urgency
+
+  Source: State Emergency Services - Emergency Housing - https://www.ses.nsw.gov.au/emergency-housing
+
+receipt_expected: true
+

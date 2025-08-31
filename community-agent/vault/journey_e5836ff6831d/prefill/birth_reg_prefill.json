@@ -1,0 +1,16 @@
+{
+  "type": "prefill",
+  "created_at": "2025-08-31T00:19:07.150206",
+  "data": {
+    "journey_id": "journey_e5836ff6831d",
+    "step_id": "birth_reg",
+    "form_data": {
+      "parent1_full_name": "Narendra",
+      "parent1_dob": "1990-01-11",
+      "baby_name": "sdfsd",
+      "baby_dob": "2025-08-24",
+      "place_of_birth": "sdfs"
+    },
+    "created_at": "2025-08-31T00:19:07.149862"
+  }
+}

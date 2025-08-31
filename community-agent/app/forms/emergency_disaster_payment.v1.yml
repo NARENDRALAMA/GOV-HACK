@@ -1,0 +1,93 @@
+id: emergency_disaster_payment
+title: Emergency Disaster Payment
+description: Apply for emergency financial assistance after a disaster
+
+fields:
+  - id: applicant_full_name
+    label: Full Name
+    required: true
+    source: applicant.full_name
+
+  - id: applicant_dob
+    label: Date of Birth
+    required: true
+    source: applicant.dob
+
+  - id: applicant_email
+    label: Email Address
+    required: false
+    source: applicant.email
+
+  - id: applicant_phone
+    label: Phone Number
+    required: false
+    source: applicant.phone
+
+  - id: residential_address
+    label: Residential Address
+    required: false
+    source: address.line1
+
+  - id: suburb
+    label: Suburb
+    required: false
+    source: address.suburb
+
+  - id: state
+    label: State
+    required: false
+    source: address.state
+
+  - id: postcode
+    label: Postcode
+    required: false
+    source: address.postcode
+
+  - id: disaster_type
+    label: Type of Disaster
+    required: false
+    source: disaster.type
+
+  - id: disaster_date
+    label: Date of Disaster
+    required: false
+    source: disaster.date
+
+  - id: disaster_location
+    label: Disaster Location
+    required: false
+    source: disaster.location
+
+  - id: property_damage
+    label: Property Damage Description
+    required: false
+    source: disaster.property_damage
+
+  - id: bank_account_bsb
+    label: Bank Account BSB
+    required: false
+    source: banking.bsb
+
+  - id: bank_account_number
+    label: Bank Account Number
+    required: false
+    source: banking.account_number
+
+  - id: bank_account_name
+    label: Bank Account Name
+    required: false
+    source: banking.account_name
+
+review_text: |
+  Please review your Emergency Disaster Payment application details above. All required fields have been completed based on your intake information.
+
+  Important notes:
+  - Emergency Disaster Payment provides immediate financial assistance after a disaster
+  - You must have been affected by an eligible disaster event
+  - Payments are made to your nominated bank account
+  - Processing time is typically 1-3 business days for urgent cases
+
+  Source: Services Australia - Disaster Recovery Payment - https://www.servicesaustralia.gov.au/disaster-recovery-payment
+
+receipt_expected: true
+

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agentic Community Assistant - Baby Just Born</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .gradient-bg {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+      .card-hover {
+        transition: all 0.3s ease;
+      }
+      .card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      }
+      .step-active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+      .step-completed {
+        background: #10b981;
+        color: white;
+      }
+      .form-input {
+        transition: all 0.3s ease;
+      }
+      .form-input:focus {
+        transform: scale(1.02);
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg">
+      <div class="container mx-auto px-6 py-8">
+        <div class="flex items-center justify-between">
+          <div>
+            <h1 class="text-4xl font-bold mb-2">
+              <i class="fas fa-baby text-pink-300 mr-3"></i>
+              Community Assistant
+            </h1>
+            <p class="text-xl text-blue-100">
+              Guiding you through life's important moments
+            </p>
+          </div>
+          <div class="text-right">
+            <div class="text-2xl font-bold text-yellow-300">NSW</div>
+            <div class="text-sm text-blue-100">Government Services</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-8">
+      <!-- Welcome Section -->
+      <div id="welcome-section" class="text-center mb-12">
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-3xl font-bold text-gray-800 mb-4">
+            Welcome to Your Baby's Journey! 👶
+          </h2>
+          <p class="text-lg text-gray-600 mb-8">
+            We'll help you complete all the necessary government services for
+            your newborn. Let's get started with a few simple questions.
+          </p>
+          <button
+            onclick="startJourney()"
+            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-lg text-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+          >
+            <i class="fas fa-rocket mr-2"></i>
+            Start My Journey
+          </button>
+        </div>
+      </div>
+
+      <!-- Journey Form Section -->
+      <div id="journey-form-section" class="hidden max-w-4xl mx-auto">
+        <div class="bg-white rounded-xl shadow-xl p-8 mb-8">
+          <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">
+            <i class="fas fa-user-plus text-blue-500 mr-2"></i>
+            Tell Us About Your Family
+          </h3>
+
+          <form id="intake-form" class="space-y-6">
+            <!-- Parent 1 Information -->
+            <div class="border-l-4 border-blue-500 pl-6">
+              <h4 class="text-xl font-semibold text-gray-700 mb-4">
+                Parent 1 Information
+              </h4>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2"
+                    >Full Name *</label
+                  >
+                  <input
+                    type="text"
+                    id="parent1_name"
+                    required
+                    class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2"
+                    >Date of Birth *</label
+                  >
+                  <input
+                    type="date"
+                    id="parent1_dob"
+                    required
+                    class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2"
+                    >Email</label
+                  >
+                  <input
+                    type="email"
+                    id="parent1_email"
+                    class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2"
+                    >Phone</label
+                  >
+                  <input
+                    type="tel"
+                    id="parent1_phone"
+                    class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Parent 2 Information -->
+            <div class="border-l-4 border-green-500 pl-6">
+              <h4 class="text-xl font-semibold text-gray-700 mb-4">
+                Parent 2 Information (Optional)
+              </h4>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2"
+                    >Full Name</label
+                  >
+                  <input
+                    type="text"
+                    id="parent2_name"
+                    class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2"
+                    >Date of Birth</label
+                  >
+                  <input
+                    type="date"
+                    id="parent2_dob"
+                    class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Baby Information -->
+            <div class="border-l-4 border-pink-500 pl-6">
+              <h4 class="text-xl font-semibold text-gray-700 mb-4">
+                Baby Information
+              </h4>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2"
+                    >Baby's Name</label
+                  >
+                  <input
+                    type="text"
+                    id="baby_name"
+                    class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2"
+                    >Date of Birth *</label
+                  >
+                  <input
+                    type="date"
+                    id="baby_dob"
+                    required
+                    class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2"
+                    >Sex</label
+                  >
+                  <select
+                    id="baby_sex"
+                    class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                  >
+                    <option value="">Select...</option>
+                    <option value="M">Male</option>
+                    <option value="F">Female</option>
+                    <option value="X">Other</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2"
+                    >Place of Birth</label
+                  >
+                  <input
+                    type="text"
+                    id="place_of_birth"
+                    placeholder="e.g., Westmead Hospital"
+                    class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Address Information -->
+            <div class="border-l-4 border-purple-500 pl-6">
+              <h4 class="text-xl font-semibold text-gray-700 mb-4">
+                Address Information
+              </h4>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="md:col-span-2">
+                  <label class="block text-sm font-medium text-gray-700 mb-2"
+                    >Street Address</label
+                  >
+                  <input
+                    type="text"
+                    id="address_line1"
+                    class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2"
+                    >Suburb</label
+                  >
+                  <input
+                    type="text"
+                    id="suburb"
+                    class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2"
+                    >State</label
+                  >
+                  <select
+                    id="state"
+                    class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  >
+                    <option value="NSW" selected>New South Wales</option>
+                    <option value="VIC">Victoria</option>
+                    <option value="QLD">Queensland</option>
+                    <option value="WA">Western Australia</option>
+                    <option value="SA">South Australia</option>
+                    <option value="TAS">Tasmania</option>
+                    <option value="ACT">Australian Capital Territory</option>
+                    <option value="NT">Northern Territory</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2"
+                    >Postcode</label
+                  >
+                  <input
+                    type="text"
+                    id="postcode"
+                    class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="text-center pt-6">
+              <button
+                type="submit"
+                class="bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-8 rounded-lg text-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+              >
+                <i class="fas fa-paper-plane mr-2"></i>
+                Create My Journey
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Journey Progress Section -->
+      <div id="journey-progress-section" class="hidden max-w-6xl mx-auto">
+        <div class="bg-white rounded-xl shadow-xl p-8 mb-8">
+          <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">
+            <i class="fas fa-route text-blue-500 mr-2"></i>
+            Your Journey Progress
+          </h3>
+
+          <!-- Journey Steps -->
+          <div
+            id="journey-steps"
+            class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8"
+          >
+            <!-- Steps will be populated here -->
+          </div>
+
+          <!-- Current Step Form -->
+          <div id="current-step-form" class="hidden">
+            <!-- Form will be populated here -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Success Section -->
+      <div id="success-section" class="hidden max-w-4xl mx-auto text-center">
+        <div class="bg-green-50 border border-green-200 rounded-xl p-8">
+          <i class="fas fa-check-circle text-6xl text-green-500 mb-6"></i>
+          <h3 class="text-3xl font-bold text-green-800 mb-4">
+            Journey Completed! 🎉
+          </h3>
+          <p class="text-lg text-green-700 mb-6">
+            Congratulations! You've successfully completed all the necessary
+            government services for your baby.
+          </p>
+          <div id="journey-summary" class="bg-white rounded-lg p-6 mb-6">
+            <!-- Summary will be populated here -->
+          </div>
+          <button
+            onclick="startNewJourney()"
+            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300"
+          >
+            Start Another Journey
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-16">
+      <div class="container mx-auto px-6 text-center">
+        <p class="text-gray-400">
+          <i class="fas fa-shield-alt mr-2"></i>
+          Your privacy and security are our top priority. All data is encrypted
+          and stored securely.
+        </p>
+      </div>
+    </footer>
+
+    <!-- Loading Overlay -->
+    <div
+      id="loading-overlay"
+      class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+    >
+      <div class="bg-white rounded-lg p-8 text-center">
+        <div
+          class="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"
+        ></div>
+        <p class="text-lg font-semibold text-gray-700">
+          Processing your request...
+        </p>
+      </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>

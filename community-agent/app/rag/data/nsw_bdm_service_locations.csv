@@ -1,0 +1,11 @@
+name,address,suburb,postcode,phone,url,service_type,operating_hours
+NSW Registry of Births Deaths and Marriages,35 Regent Street,Chippendale,2008,1300 369 123,https://www.bdm.nsw.gov.au/Pages/bdm.aspx,birth_registration,"Mon-Fri 8:30am-4:30pm"
+Parramatta Service Centre,146 Marsden Street,Parramatta,2150,1300 369 123,https://www.bdm.nsw.gov.au/Pages/bdm.aspx,birth_registration,"Mon-Fri 8:30am-4:30pm"
+Liverpool Service Centre,203 Northumberland Street,Liverpool,2170,1300 369 123,https://www.bdm.nsw.gov.au/Pages/bdm.aspx,birth_registration,"Mon-Fri 8:30am-4:30pm"
+Penrith Service Centre,510 High Street,Penrith,2750,1300 369 123,https://www.bdm.nsw.gov.au/Pages/bdm.aspx,birth_registration,"Mon-Fri 8:30am-4:30pm"
+Newcastle Service Centre,12 Stewart Avenue,Newcastle,2300,1300 369 123,https://www.bdm.nsw.gov.au/Pages/bdm.aspx,birth_registration,"Mon-Fri 8:30am-4:30pm"
+Wollongong Service Centre,60 Burelli Street,Wollongong,2500,1300 369 123,https://www.bdm.nsw.gov.au/Pages/bdm.aspx,birth_registration,"Mon-Fri 8:30am-4:30pm"
+Coffs Harbour Service Centre,2/14 Park Avenue,Coffs Harbour,2450,1300 369 123,https://www.bdm.nsw.gov.au/Pages/bdm.aspx,birth_registration,"Mon-Fri 8:30am-4:30pm"
+Wagga Wagga Service Centre,55 Baylis Street,Wagga Wagga,2650,1300 369 123,https://www.bdm.nsw.gov.au/Pages/bdm.aspx,birth_registration,"Mon-Fri 8:30am-4:30pm"
+Dubbo Service Centre,1/147 Macquarie Street,Dubbo,2830,1300 369 123,https://www.bdm.nsw.gov.au/Pages/bdm.aspx,birth_registration,"Mon-Fri 8:30am-4:30pm"
+Tamworth Service Centre,2/445 Peel Street,Tamworth,2340,1300 369 123,https://www.bdm.nsw.gov.au/Pages/bdm.aspx,birth_registration,"Mon-Fri 8:30am-4:30pm"

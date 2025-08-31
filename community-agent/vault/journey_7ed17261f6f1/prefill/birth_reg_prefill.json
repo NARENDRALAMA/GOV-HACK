@@ -1,0 +1,16 @@
+{
+  "type": "prefill",
+  "created_at": "2025-08-30T06:40:33.245356",
+  "data": {
+    "journey_id": "journey_7ed17261f6f1",
+    "step_id": "birth_reg",
+    "form_data": {
+      "parent1_full_name": "Chhiring Lama",
+      "parent1_dob": "1990-01-01",
+      "baby_name": "Chhiring Lama",
+      "baby_dob": "2025-08-23",
+      "place_of_birth": "234"
+    },
+    "created_at": "2025-08-30T06:40:33.245323"
+  }
+}

@@ -1,0 +1,88 @@
+id: unemployment_centrelink
+title: Centrelink JobSeeker Payment
+description: Apply for unemployment benefits through Centrelink
+
+fields:
+  - id: applicant_full_name
+    label: Full Name
+    required: true
+    source: applicant.full_name
+
+  - id: applicant_dob
+    label: Date of Birth
+    required: true
+    source: applicant.dob
+
+  - id: applicant_email
+    label: Email Address
+    required: false
+    source: applicant.email
+
+  - id: applicant_phone
+    label: Phone Number
+    required: false
+    source: applicant.phone
+
+  - id: residential_address
+    label: Residential Address
+    required: false
+    source: address.line1
+
+  - id: suburb
+    label: Suburb
+    required: false
+    source: address.suburb
+
+  - id: state
+    label: State
+    required: false
+    source: address.state
+
+  - id: postcode
+    label: Postcode
+    required: false
+    source: address.postcode
+
+  - id: last_employer
+    label: Last Employer Name
+    required: false
+    source: employment.last_employer
+
+  - id: last_work_date
+    label: Last Day of Work
+    required: false
+    source: employment.last_work_date
+
+  - id: reason_for_unemployment
+    label: Reason for Unemployment
+    required: false
+    source: employment.reason_for_unemployment
+
+  - id: bank_account_bsb
+    label: Bank Account BSB
+    required: false
+    source: banking.bsb
+
+  - id: bank_account_number
+    label: Bank Account Number
+    required: false
+    source: banking.account_number
+
+  - id: bank_account_name
+    label: Bank Account Name
+    required: false
+    source: banking.account_name
+
+review_text: |
+  Please review your JobSeeker Payment application details above. All required fields have been completed based on your intake information.
+
+  Important notes:
+  - JobSeeker Payment provides financial support while you look for work
+  - You must meet mutual obligation requirements (job search, training, etc.)
+  - Payments are made fortnightly to your nominated bank account
+  - Processing time is typically 2-4 weeks
+
+  Source: Services Australia - JobSeeker Payment - https://www.servicesaustralia.gov.au/jobseeker-payment
+
+receipt_expected: true
+

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Debug Web Interface</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+      button {
+        padding: 10px 20px;
+        margin: 10px;
+        font-size: 16px;
+      }
+      .debug {
+        background: #f0f0f0;
+        padding: 10px;
+        margin: 10px;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Debug Web Interface</h1>
+
+    <button onclick="testStartJourney()">Test Start Journey</button>
+    <button onclick="testConsole()">Test Console</button>
+    <button onclick="testFetch()">Test Fetch</button>
+
+    <div id="debug" class="debug">
+      <h3>Debug Output:</h3>
+      <div id="output"></div>
+    </div>
+
+    <script>
+      function log(message) {
+        console.log(message);
+        document.getElementById("output").innerHTML +=
+          "<div>" + message + "</div>";
+      }
+
+      function testStartJourney() {
+        log("Testing startJourney function...");
+        try {
+          if (typeof startJourney === "function") {
+            log("✅ startJourney function exists");
+            startJourney();
+          } else {
+            log("❌ startJourney function not found");
+          }
+        } catch (error) {
+          log("❌ Error: " + error.message);
+        }
+      }
+
+      function testConsole() {
+        log("Testing console...");
+        console.log("Console test message");
+        log("✅ Console test completed");
+      }
+
+      function testFetch() {
+        log("Testing fetch to API...");
+        fetch("http://localhost:8000/health")
+          .then((response) => response.json())
+          .then((data) => {
+            log("✅ API health check: " + JSON.stringify(data));
+          })
+          .catch((error) => {
+            log("❌ API error: " + error.message);
+          });
+      }
+
+      // Test if the main script loaded
+      window.addEventListener("load", function () {
+        log("Page loaded");
+        if (typeof startJourney === "function") {
+          log("✅ startJourney function available");
+        } else {
+          log("❌ startJourney function not available");
+        }
+      });
+    </script>
+  </body>
+</html>

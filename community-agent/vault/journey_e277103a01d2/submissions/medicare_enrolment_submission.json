@@ -1,0 +1,12 @@
+{
+  "type": "submission",
+  "created_at": "2025-08-31T00:26:23.173415",
+  "data": {
+    "journey_id": "journey_e277103a01d2",
+    "step_id": "medicare_enrolment",
+    "form_data": {},
+    "reference": "ME-809a8a29",
+    "submitted_at": "2025-08-31T00:26:23.173259",
+    "status": "submitted"
+  }
+}

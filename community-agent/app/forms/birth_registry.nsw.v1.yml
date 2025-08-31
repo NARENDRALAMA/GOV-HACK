@@ -1,0 +1,86 @@
+id: birth_registry_nsw
+title: Birth Registration (NSW)
+description: Register the birth of your baby with NSW Registry of Births, Deaths and Marriages
+
+fields:
+  - id: parent1_full_name
+    label: Parent 1 Full Name
+    required: true
+    source: parent1.full_name
+    
+  - id: parent1_dob
+    label: Parent 1 Date of Birth
+    required: true
+    source: parent1.dob
+    
+  - id: parent1_email
+    label: Parent 1 Email Address
+    required: false
+    source: parent1.email
+    
+  - id: parent1_phone
+    label: Parent 1 Phone Number
+    required: false
+    source: parent1.phone
+    
+  - id: parent2_full_name
+    label: Parent 2 Full Name
+    required: false
+    source: parent2.full_name
+    
+  - id: parent2_dob
+    label: Parent 2 Date of Birth
+    required: false
+    source: parent2.dob
+    
+  - id: baby_name
+    label: Baby's Full Name
+    required: false
+    source: baby.name
+    
+  - id: baby_sex
+    label: Baby's Sex
+    required: false
+    source: baby.sex
+    
+  - id: baby_dob
+    label: Baby's Date of Birth
+    required: true
+    source: baby.dob
+    
+  - id: place_of_birth
+    label: Place of Birth
+    required: false
+    source: baby.place_of_birth
+    
+  - id: residential_address
+    label: Residential Address
+    required: false
+    source: address.line1
+    
+  - id: suburb
+    label: Suburb
+    required: false
+    source: address.suburb
+    
+  - id: state
+    label: State
+    required: false
+    source: address.state
+    
+  - id: postcode
+    label: Postcode
+    required: false
+    source: address.postcode
+
+review_text: |
+  Please review the birth registration details above. All required fields have been completed based on your intake information.
+  
+  Important notes:
+  - Birth registration must be completed within 60 days of birth
+  - A birth certificate will be issued after successful registration
+  - Fees may apply for additional copies or expedited processing
+  
+  Source: NSW Registry of Births, Deaths and Marriages - https://www.bdm.nsw.gov.au/Pages/births/birth-registration.aspx
+
+receipt_expected: true
