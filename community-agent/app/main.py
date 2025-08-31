@@ -15,7 +15,7 @@ from .models import (
 from .orchestrator import JourneyOrchestrator
 from .utils.audit import log_consent, verify_consent, get_audit_trail, get_consent_summary
 from .utils.storage import list_artifacts, get_artifact_stats, cleanup_expired_artifacts, save_artifact
-from .agent import agent
+from .ai_integration import ollama_ai
 
 app = FastAPI(
     title="Agentic Community Assistant",
@@ -37,7 +37,7 @@ orchestrator = JourneyOrchestrator()
 
 # In-memory storage for demo (in production, use proper database)
 journey_store: Dict[str, Journey] = {}
-intake_store: Dict[str, Intake] = {}
+intake_store: Dict[str, Journey] = {}
 
 # Mount static files
 static_dir = Path(__file__).parent / "static"
@@ -65,7 +65,8 @@ async def root():
                 "consent": "POST /consent/{journey_id} - Grant consent",
                 "submit": "POST /submit/{journey_id}/{step} - Submit form",
                 "artifacts": "GET /artifacts - List artifacts",
-                "audit": "GET /audit - Get audit trail"
+                "audit": "GET /audit - Get audit trail",
+                "ai_chat": "POST /ai/chat - Chat with AI assistant"
             }
         }
 
@@ -98,259 +99,195 @@ async def create_intake(intake: Intake):
         )
     
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to create intake: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.get("/plan/{journey_id}", response_model=Journey)
+@app.get("/plan/{journey_id}")
 async def get_journey_plan(journey_id: str):
-    """
-    Get the journey plan for a specific journey ID
-    
-    Returns the complete journey with all steps and their current status.
-    """
-    if journey_id not in journey_store:
-        raise HTTPException(status_code=404, detail="Journey not found")
-    
-    return journey_store[journey_id]
-
-
-@app.post("/prefill/{journey_id}/{step}", response_model=PrefillResponse)
-async def prefill_form(journey_id: str, step: str):
-    """
-    Prefill a form for a specific journey step
-    
-    This endpoint:
-    1. Loads the form schema for the step
-    2. Maps intake data to form fields
-    3. Returns prefill data and review information
-    4. Saves prefill artifact
-    """
-    if journey_id not in journey_store:
-        raise HTTPException(status_code=404, detail="Journey not found")
-    
-    if journey_id not in intake_store:
-        raise HTTPException(status_code=404, detail="Intake data not found")
-    
+    """Get the journey plan for a specific journey ID"""
     try:
-        # Get intake data
-        intake = intake_store[journey_id]
+        if journey_id not in journey_store:
+            raise HTTPException(status_code=404, detail="Journey not found")
         
-        # Prefill the form
-        prefill_response = orchestrator.prefill_form(journey_id, step, intake)
-        
-        return prefill_response
+        return journey_store[journey_id]
     
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to prefill form: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/prefill/{journey_id}/{step_id}")
+async def prefill_form(journey_id: str, step_id: str):
+    """Prefill a form for a specific journey step"""
+    try:
+        if journey_id not in journey_store:
+            raise HTTPException(status_code=404, detail="Journey not found")
+        
+        # Get the form schema and prefill data
+        prefill_data = orchestrator.prefill_form(journey_id, step_id, intake_store[journey_id])
+        
+        return prefill_data
+    
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.post("/consent/{journey_id}")
 async def grant_consent(journey_id: str, consent_request: ConsentRequest):
-    """
-    Grant consent for a specific journey
-    
-    This endpoint:
-    1. Records user consent with scope and signature
-    2. Creates audit trail entry
-    3. Returns consent ID for future verification
-    """
-    if journey_id not in journey_store:
-        raise HTTPException(status_code=404, detail="Journey not found")
-    
+    """Grant consent for a journey"""
     try:
-        # Create user identifier hash (privacy-preserving)
-        user_hash = hashlib.sha256(consent_request.consent.scope[0].encode()).hexdigest()[:8]
+        if journey_id not in journey_store:
+            raise HTTPException(status_code=404, detail="Journey not found")
         
         # Log consent
-        consent_id = log_consent(
+        log_consent(
             journey_id=journey_id,
-            consent_scope=consent_request.consent.scope,
-            user_identifier=user_hash,
-            signature=consent_request.consent.signature
+            consent=consent_request,
+            actor="user"
         )
         
-        return {
-            "consent_id": consent_id,
-            "status": "granted",
-            "scope": consent_request.consent.scope,
-            "granted_at": consent_request.consent.granted_at.isoformat(),
-            "message": "Consent granted successfully"
-        }
+        return {"status": "consent_granted", "journey_id": journey_id}
     
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to grant consent: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.post("/submit/{journey_id}/{step}", response_model=SubmissionResponse)
-async def submit_form(journey_id: str, step: str, form_data: Dict[str, Any]):
-    """
-    Submit a form for a specific journey step
-    
-    This endpoint:
-    1. Processes form submission
-    2. Generates receipt and reference number
-    3. Saves submission artifact
-    4. Updates journey step status
-    """
-    if journey_id not in journey_store:
-        raise HTTPException(status_code=404, detail="Journey not found")
-    
+@app.post("/submit/{journey_id}/{step_id}")
+async def submit_form(journey_id: str, step_id: str):
+    """Submit a form for a specific journey step"""
     try:
+        if journey_id not in journey_store:
+            raise HTTPException(status_code=404, detail="Journey not found")
+        
         # Submit the form
-        submission_response = orchestrator.submit_form(journey_id, step, form_data)
+        submission = orchestrator.submit_form(journey_id, step_id)
         
-        # Update journey step status
-        journey = journey_store[journey_id]
-        for journey_step in journey.steps:
-            if journey_step.id == step:
-                journey_step.status = "completed"
-                break
-        
-        return submission_response
+        return submission
     
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to submit form: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.get("/artifacts")
 async def list_journey_artifacts(journey_id: str = None):
-    """
-    List artifacts for a specific journey or all artifacts
-    
-    Returns metadata about stored artifacts without exposing PII.
-    """
+    """List artifacts for journeys"""
     try:
-        artifacts = list_artifacts(journey_id)
-        stats = get_artifact_stats()
+        if journey_id:
+            artifacts = list_artifacts(journey_id=journey_id)
+        else:
+            artifacts = list_artifacts()
         
-        return {
-            "artifacts": artifacts,
-            "stats": stats
-        }
+        return artifacts
     
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to list artifacts: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.get("/audit")
-async def get_audit_information(
-    journey_id: str = None,
-    action: str = None,
-    limit: int = 50
-):
-    """
-    Get audit trail information
-    
-    Returns filtered audit events and consent summary.
-    """
+async def get_audit_trail():
+    """Get the audit trail"""
     try:
-        # Get audit trail
-        audit_events = get_audit_trail(journey_id, action)
-        
-        # Limit results
-        if limit:
-            audit_events = audit_events[:limit]
-        
-        # Get consent summary
-        consent_summary = get_consent_summary()
-        
-        return {
-            "audit_events": audit_events,
-            "consent_summary": consent_summary,
-            "total_events": len(audit_events)
-        }
+        audit_trail = get_audit_trail()
+        return audit_trail
     
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to get audit information: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 
-# Agentic AI Endpoints
-@app.post("/agent/start")
-async def agent_start(request: Dict[str, Any]):
-    """Start a conversation with the agentic AI assistant"""
+@app.get("/stats")
+async def get_artifact_stats():
+    """Get artifact statistics"""
+    try:
+        stats = get_artifact_stats()
+        return stats
+    
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# New AI Chat Endpoints
+@app.post("/ai/chat")
+async def ai_chat(request: Dict[str, Any]):
+    """Chat with the AI assistant"""
     try:
         user_message = request.get("message", "")
         if not user_message:
             raise HTTPException(status_code=400, detail="Message is required")
         
-        # Start conversation with agent
-        response = agent.start_conversation(user_message)
+        # Use the Ollama AI to analyze the request
+        ai_response = ollama_ai.analyze_government_request(user_message)
         
-        # Save conversation artifact
-        conversation_artifact = {
-            "conversation_id": response.get("journey_id"),
-            "user_message": user_message,
-            "agent_response": response,
-            "timestamp": datetime.now().isoformat()
-        }
+        # Create a journey if one was identified
+        journey_id = None
+        if ai_response.get('life_event') and ai_response.get('journey_steps'):
+            journey_id = f"ai_journey_{hashlib.sha256(user_message.encode()).hexdigest()[:8]}"
+            
+            # Create a simple journey structure
+            journey = Journey(
+                id=journey_id,
+                life_event=ai_response['life_event'],
+                jurisdiction="NSW",
+                steps=ai_response['journey_steps']
+            )
+            
+            # Store the journey
+            journey_store[journey_id] = journey
+            
+            # Add journey info to response
+            ai_response['journey_id'] = journey_id
+            ai_response['plan'] = journey.dict()
         
-        save_artifact(
-            f"conversations/{response.get('journey_id')}/start.json",
-            conversation_artifact,
-            "conversation_start"
-        )
-        
-        return response
+        return ai_response
         
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/agent/continue")
-async def agent_continue(request: Dict[str, Any]):
-    """Continue an existing conversation with the agentic AI assistant"""
+
+@app.post("/ai/continue")
+async def ai_continue(request: Dict[str, Any]):
+    """Continue conversation with AI"""
     try:
+        user_message = request.get("message", "")
         journey_id = request.get("journey_id")
-        user_input = request.get("user_input")
         
-        if not journey_id:
-            raise HTTPException(status_code=400, detail="Journey ID is required")
+        if not user_message:
+            raise HTTPException(status_code=400, detail="Message is required")
         
-        # Continue conversation with agent
-        response = agent.continue_conversation(journey_id, user_input)
+        # Generate AI response
+        ai_response = ollama_ai.generate_response(user_message)
         
-        # Save continuation artifact
-        continuation_artifact = {
-            "journey_id": journey_id,
-            "user_input": user_input,
-            "agent_response": response,
-            "timestamp": datetime.now().isoformat()
-        }
+        # Add journey context if available
+        if journey_id and journey_id in journey_store:
+            journey = journey_store[journey_id]
+            ai_response['journey_id'] = journey_id
+            ai_response['current_journey'] = journey.dict()
         
-        save_artifact(
-            f"conversations/{journey_id}/continue.json",
-            continuation_artifact,
-            "conversation_continue"
-        )
-        
-        return response
+        return ai_response
         
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.get("/agent/status/{journey_id}")
-async def agent_status(journey_id: str):
-    """Get the current status of an agent conversation"""
+
+@app.get("/ai/history")
+async def get_ai_history():
+    """Get AI conversation history"""
     try:
-        if not agent.current_journey or agent.current_journey.id != journey_id:
-            return {"error": "Journey not found or not active"}
-        
-        # Get current journey status
-        current_step = None
-        for step in agent.current_journey.steps:
-            if step.status != 'completed':
-                current_step = step
-                break
-        
-        return {
-            "journey_id": journey_id,
-            "current_step": current_step.dict() if current_step else None,
-            "total_steps": len(agent.current_journey.steps),
-            "completed_steps": len([s for s in agent.current_journey.steps if s.status == 'completed']),
-            "status": "active" if current_step else "completed"
-        }
-        
+        history = ollama_ai.get_conversation_history()
+        return {"conversations": history}
+    
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.delete("/ai/history")
+async def clear_ai_history():
+    """Clear AI conversation history"""
+    try:
+        ollama_ai.clear_history()
+        return {"status": "history_cleared"}
+    
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 
 @app.post("/cleanup")
 async def cleanup_expired_data():
@@ -378,7 +315,8 @@ async def health_check():
     return {
         "status": "healthy",
         "timestamp": datetime.utcnow().isoformat(),
-        "service": "Agentic Community Assistant"
+        "service": "Agentic Community Assistant",
+        "ai_model": "Ollama (qwen2.5:0.5b)"
     }
 
 
